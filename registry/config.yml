@@ -1,0 +1,39 @@
+version: 0.1
+log:
+  accesslog:
+    disabled: false
+  level: debug
+  formatter: json
+  fields:
+    service: registry
+    environment: prod
+storage:
+  cache:
+    blobdescriptor: redis
+  filesystem:
+    rootdirectory: /var/lib/registry
+  tag:
+    concurrencylimit: 8
+http:
+  addr: :5000
+  headers:
+    X-Content-Type-Options: [nosniff]
+  debug:
+    addr: :5001
+    prometheus:
+      enabled: true
+      path: /metrics
+redis:
+  addrs: ['redis:6380']
+  db: 1
+  dialtimeout: 10ms
+  readtimeout: 10ms
+  writetimeout: 10ms
+  maxidleconns: 16
+  poolsize: 64
+  connmaxidletime: 300s
+health:
+  storagedriver:
+    enabled: true
+    interval: 10s
+    threshold: 3
